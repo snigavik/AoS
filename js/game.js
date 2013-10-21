@@ -1,15 +1,10 @@
-var sources = {
-    darthVader: 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg',
-    yoda: 'http://www.html5canvastutorials.com/demos/assets/yoda.jpg'
-};
-
 var cardPredix = 'images/cards2/', cardExt = '.png';
 
 var mapIdToNameOfCards = {
     1: '2_of_clubs',
     2: '2_of_diamonds',
     3: '2_of_hearts',
-    4: '2_of_spades', 
+    4: '2_of_spades',
     5: '3_of_clubs',
     6: '3_of_diamonds',
     7: '3_of_hearts',
@@ -21,24 +16,24 @@ var mapIdToNameOfCards = {
     13: '5_of_clubs',
     14: '5_of_diamonds',
     15: '5_of_hearts',
-    16: '5_of_spades',   
+    16: '5_of_spades',
 
     17: '6_of_clubs',
     18: '6_of_diamonds',
     19: '6_of_hearts',
-    20: '6_of_spades', 
+    20: '6_of_spades',
     21: '7_of_clubs',
     22: '7_of_diamonds',
     23: '7_of_hearts',
-    24: '7_of_spades', 
+    24: '7_of_spades',
     25: '8_of_clubs',
     26: '8_of_diamonds',
     27: '8_of_hearts',
-    28: '8_of_spades', 
+    28: '8_of_spades',
     29: '9_of_clubs',
     30: '9_of_diamonds',
     31: '9_of_hearts',
-    32: '9_of_spades', 
+    32: '9_of_spades',
     33: '10_of_clubs',
     34: '10_of_diamonds',
     35: '10_of_hearts',
@@ -62,51 +57,39 @@ var mapIdToNameOfCards = {
     49: 'ace_of_clubs',
     50: 'ace_of_diamonds',
     51: 'ace_of_hearts',
-    52: 'ace_of_spades'                                             
+    52: 'ace_of_spades'
 
 };
 
-function getCardPath(n){
-    var cardpath = cardPredix+mapIdToNameOfCards[n]+cardExt;
-    //console.log(cardpath);
+function getCardPath(n) {
+    var cardpath = cardPredix + mapIdToNameOfCards[n] + cardExt;
     return cardpath;
 }
 
-var Card = (function(){
-    function Card(n){
+var Card = (function () {
+    function Card(n) {
         this.id = n;
         this.img = new Image();
-
         this.img.src = getCardPath(n);
     };
 
-    Card.prototype.equals = function(c){
+    Card.prototype.equals = function (c) {
         return (this.id == c.id);
     }
 
-    Card.prototype.draw = function(position){
-        // drawRoundRect(ctx, position.x, position.y, cardWidth, cardHeigh , 6);
-        // ctx.fillStyle = "rgb(255,255,255)";
-        // ctx.fill();
-
-        // ctx.font = "24px Calibri";
-        // ctx.textAlign = "left";
-        // ctx.fillStyle = "#00f";
-        // ctx.fillText(this.id, (position.x + cardWidth/2),position.y+cardHeigh/2);  
-        ctx.drawImage(this.img, position.x, position.y,cardWidth,cardHeigh);      
+    Card.prototype.draw = function (position) {
+        ctx.drawImage(this.img, position.x, position.y, cardWidth, cardHeigh);
     };
 
-    Card.prototype.drawEnd = function(position){
-        ctx.drawImage(this.img, position.x, position.y,cardWidth*(1+aosscale),cardHeigh*(1+aosscale));         
+    Card.prototype.drawEnd = function (position) {
+        ctx.drawImage(this.img, position.x, position.y, cardWidth * (1 + aosscale), cardHeigh * (1 + aosscale));
     };
-
-
     return Card;
 })();
 
-function createPack(){
+function createPack() {
     var pck = [];
-    for(var i=1;i<=52;i++){
+    for (var i = 1; i <= 52; i++) {
         pck.push(new Card(i));
     }
     return pck;
@@ -128,8 +111,8 @@ function drawRoundRect(ctx, x, y, width, height, radius) {
     ctx.closePath();
 }
 
-var Pack = (function(){
-    function Pack(){
+var Pack = (function () {
+    function Pack() {
         this.pack = createPack();
         this.img = new Image();
 
@@ -137,12 +120,12 @@ var Pack = (function(){
 
     };
 
-    Pack.prototype.shuffle = function(force){
-        if(force == undefined) force = 10;
+    Pack.prototype.shuffle = function (force) {
+        if (force == undefined) force = 10;
         var tempCard, k1, k2;
-        for(var i=0;i<force*this.size();i++){
-            k1 = Math.floor(Math.random()*this.size());
-            k2 = Math.floor(Math.random()*this.size());
+        for (var i = 0; i < force * this.size(); i++) {
+            k1 = Math.floor(Math.random() * this.size());
+            k2 = Math.floor(Math.random() * this.size());
 
             tempCard = this.pack[k1];
             this.pack[k1] = this.pack[k2];
@@ -151,198 +134,178 @@ var Pack = (function(){
 
     };
 
-    Pack.prototype.print = function(){
+    Pack.prototype.print = function () {
         console.log(this.pack);
     }
 
-    Pack.prototype.size = function(){
+    Pack.prototype.size = function () {
         return this.pack.length;
-    } 
+    }
 
-    Pack.prototype.pop = function(){
+    Pack.prototype.pop = function () {
         return this.pack.pop();
     }
 
-    Pack.prototype.isEmpty = function(){
+    Pack.prototype.isEmpty = function () {
         return (this.pack.length == 0);
     }
 
     Pack.prototype.draw = function (position) {
-        // ctx.beginPath();
-        // ctx.moveTo(x, y);
-        // ctx.lineTo(x + this.l, y);
-        // ctx.lineWidth = w;//this.width;
-        // ctx.closePath();
-        // ctx.strokeStyle = this.color.getColor();
-        // ctx.stroke();
-        drawRoundRect(ctx, position.x, position.y, cardWidth, cardHeigh , 6);
+        drawRoundRect(ctx, position.x, position.y, cardWidth, cardHeigh, 6);
         ctx.fillStyle = "rgb(255,255,255)";
         ctx.fill();
 
-        ctx.drawImage(this.img,position.x,position.y,cardWidth,cardHeigh);
+        ctx.drawImage(this.img, position.x, position.y, cardWidth, cardHeigh);
 
         ctx.font = "32px Calibri";
         ctx.textAlign = "left";
         ctx.fillStyle = "#f00";
-        ctx.fillText(this.pack.length, position.x + 42,position.y-16);         
+        ctx.fillText(this.pack.length, position.x + 42, position.y - 16);
 
     };
     return Pack;
 })();
 
-function createPlayers(n){
-    var plrs = [];
-    for(var i=0;i<n;i++){
-        plrs.push(new Player(i));
-    }
-    return plrs;
-}
-
-var Player = (function(){
-    function Player(n, pos){
+var Player = (function () {
+    function Player(n, pos) {
         this.id = n
         this.cards = [];
         this.position = pos;
     };
 
 
-    Player.prototype.push = function(c){
+    Player.prototype.push = function (c) {
         this.cards.push(c);
     }
 
-    Player.prototype.contains = function(c){
-        for(var i=0;i<this.cards.length;i++){
-            if(this.cards[i].equals(c))return true;
+    Player.prototype.contains = function (c) {
+        for (var i = 0; i < this.cards.length; i++) {
+            if (this.cards[i].equals(c))return true;
         }
         return false;
     }
 
-    Player.prototype.fatalContains = function(){
-        for(var i=0;i<this.cards.length;i++){
+    Player.prototype.fatalContains = function () {
+        for (var i = 0; i < this.cards.length; i++) {
 
-            if(this.cards[i].id == 52) return true;
+            if (this.cards[i].id == 52) return true;
         }
         return false;
-    }    
+    }
 
-    Player.prototype.draw = function(){
+    Player.prototype.draw = function () {
         //var position = this.position;
-        if(this.cards.length>0){
-            this.cards[this.cards.length-1].draw(this.position);
-        }else{
-            drawRoundRect(ctx, this.position.x, this.position.y, cardWidth, cardHeigh , 6);
+        if (this.cards.length > 0) {
+            this.cards[this.cards.length - 1].draw(this.position);
+        } else {
+            drawRoundRect(ctx, this.position.x, this.position.y, cardWidth, cardHeigh, 6);
             ctx.fillStyle = "rgb(255,255,255)";
-            ctx.fill();           
-        }       
+            ctx.fill();
+        }
     };
 
-    Player.prototype.drawEnd = function(){
-        var newPos = new Vector2d(this.position.x - cardWidth*aosscale*0.5,this.position.y - cardHeigh*aosscale*0.5);
-        this.cards[this.cards.length-1].drawEnd(newPos);
+    Player.prototype.drawEnd = function () {
+        var newPos = new Vector2d(this.position.x - cardWidth * aosscale * 0.5, this.position.y - cardHeigh * aosscale * 0.5);
+        this.cards[this.cards.length - 1].drawEnd(newPos);
 
         var pp = newPos;
 
         ctx.font = "32px Calibri";
         ctx.textAlign = "left";
         ctx.fillStyle = "#f00";
-        ctx.fillText("обманул!", pp.x + 24,pp.y+cardHeigh*(1+aosscale)+32);        
+        ctx.fillText("обманул!", pp.x + 24, pp.y + cardHeigh * (1 + aosscale) + 32);
     }
 
-    
-    
+
     return Player;
 })();
 
-var AoSGame = (function(){
-    function AoSGame(n, c){
+var AoSGame = (function () {
+    function AoSGame(n, c) {
         this.center = c;
 
         this.players = this.createPlayers(n);
         this.currentPlayer = 0;
         this.pack = new Pack();
-            this.pack.shuffle(10);
-                this.gameover = false;
+        this.pack.shuffle(10);
+        this.gameover = false;
         this.lastCard;
     };
 
-    AoSGame.prototype.createPlayers = function(n){
+    AoSGame.prototype.createPlayers = function (n) {
         var plrs = [];
         var x = 128;
-        for(var i=0;i<n;i++){
-            plrs.push(new Player(i, new Vector2d(x,this.center.y+cardHeigh + 128)));
-            x+=cardWidth + cardsGap;
+        for (var i = 0; i < n; i++) {
+            plrs.push(new Player(i, new Vector2d(x, this.center.y + cardHeigh + 128)));
+            x += cardWidth + cardsGap;
         }
         return plrs;
     };
 
-    AoSGame.prototype.packClicked = function(p){
-        //console.log(p.x +" "+p.y);
-        return (p.x > this.center.x && p.x < this.center.x+cardWidth && p.y> this.center.y && p.y < this.center.y+cardHeigh);
+    AoSGame.prototype.packClicked = function (p) {
+        return (p.x > this.center.x && p.x < this.center.x + cardWidth && p.y > this.center.y && p.y < this.center.y + cardHeigh);
     };
 
-    AoSGame.prototype.packClicked = function(p){
-        //console.log(p.x +" "+p.y);
-        return (p.x > this.center.x && p.x < this.center.x+cardWidth && p.y> this.center.y && p.y < this.center.y+cardHeigh);
-    };    
+    AoSGame.prototype.packClicked = function (p) {
+        return (p.x > this.center.x && p.x < this.center.x + cardWidth && p.y > this.center.y && p.y < this.center.y + cardHeigh);
+    };
 
-    AoSGame.prototype.moveCardToPlayer = function(){
+    AoSGame.prototype.moveCardToPlayer = function () {
         var topCard = this.pack.pop();
         this.lastCard = topCard;
-        //console.log(topCard.id);
         this.players[this.currentPlayer].push(topCard);
     };
 
-    AoSGame.prototype.nextPlayer = function(){
+    AoSGame.prototype.nextPlayer = function () {
         this.currentPlayer++;
-        if(this.currentPlayer == this.players.length)this.currentPlayer = 0;
+        if (this.currentPlayer == this.players.length)this.currentPlayer = 0;
     };
 
-    AoSGame.prototype.isOver = function(){
+    AoSGame.prototype.isOver = function () {
         return (this.lastCard.id == 52);
     };
 
-    AoSGame.prototype.draw = function(){
+    AoSGame.prototype.draw = function () {
         clearScreen();
         this.pack.draw(this.center);
 
         //draw players
 
-        for(var i=0;i<this.players.length;i++){
+        for (var i = 0; i < this.players.length; i++) {
             this.players[i].draw();
-            
-        }
 
+        }
 
 
     };
 
-    AoSGame.prototype.tick = function(p){
-        if(this.gameover)return;
+    AoSGame.prototype.tick = function (p) {
+        if (this.gameover)return;
         var clickFlag = this.packClicked(p);
-        if(clickFlag){
+        if (clickFlag) {
             this.moveCardToPlayer();
             //var pn = this.isOver();
             //console.log(this.lastCard.id);
-            if(this.isOver()){
+            if (this.isOver()) {
                 this.endGame();
                 return;
             }
             this.nextPlayer();
         }
 
-        this.draw();        
+        this.draw();
     };
 
-    AoSGame.prototype.endGame = function(){
+    AoSGame.prototype.endGame = function () {
         this.gameover = true;
         this.draw();
         this.drawEnd();
     };
 
-    AoSGame.prototype.drawEnd = function(){
-        this.players[this.currentPlayer].drawEnd();        
-    } 
-    
+    AoSGame.prototype.drawEnd = function () {
+        this.players[this.currentPlayer].drawEnd();
+    }
+
     return AoSGame;
 })();
 
@@ -394,55 +357,26 @@ var Vector2d = (function () {
     return Vector2d;
 })();
 
-function clearScreen(){
+function clearScreen() {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }
-
 
 var $window = $(window),
     ctx,
     canvasWidth = $window.width() - 4,
     canvasHeight = $window.height() - 4,
-    cardHeigh = 128*1.5,
+    cardHeigh = 128 * 1.5,
     cardWidth = 128,
     aosgame,
     cardsGap = 64;
-    aosscale = 0.4;
-    isFirefox = window.navigator.userAgent.toLocaleLowerCase().indexOf("firefox") !== -1;
-
-var now, prevTime, delta;    
-
-var colors = {
-        "red": "#ff0000",
-        "yellow": "#ffff00",
-        "green": "#21421E",
-        "blue": "#0000ff",
-        "blue-water": "#009999"
-    },
-    colors_names = Object.keys(colors);
-
-
-
-
-function handleDown(p) {
-
-}
-function handleMove(p) {
-
-}
-function handleUp() {
-
-}
-
-
+aosscale = 0.4;
 
 //======================
-function initGame(){
-    //vvar center = new Vector2d(canvasWidth/2,canvasHeight/2);
-    aosgame = new AoSGame(4, new Vector2d(256,100));
+function initGame() {
+    aosgame = new AoSGame(4, new Vector2d(256, 100));
 }
 
-function startGame(){
+function startGame() {
     aosgame.draw();
 }
 
@@ -450,37 +384,25 @@ function startGame(){
 var isClick = false;
 
 
-function handleClick(p){
+function handleClick(p) {
     //alert("23");
-    if(isClick)return;
+    if (isClick)return;
     isClick = true;
-        
-    // ctx.fillStyle = "rgb(0,0,255)";
-    // ctx.beginPath();
-    // ctx.arc(p.x, p.y, 32, 0, Math.PI * 2, true);
-    // ctx.closePath();
-    // ctx.fill();
-
     aosgame.tick(p);
 
     //вычисление куда попал клик
-
     //отработка колоды, обновление карт
-
     //визуализация событий
-
     //отрисовка
 
     isClick = false;
 }
 
 
-
-
 function handleKeyUp() {
     //xfilter.cy(-2);
 }
-function handleKeyDown() {  
+function handleKeyDown() {
     //xfilter.cy(2);
 }
 function handleKeyRight() {
@@ -528,18 +450,14 @@ $window.load(function () {
     canvas.width = canvasWidth * pixelRatio;
     canvas.height = canvasHeight * pixelRatio;
 
-    $canvas.css({ width : canvasWidth, height : canvasHeight });
+    $canvas.css({ width: canvasWidth, height: canvasHeight });
 
     var ctx1 = canvas.getContext('2d');
     ctx1.scale(pixelRatio, pixelRatio);
 
     ctx = ctx1;
-
     initGame();
     startGame();
-    //var game = new Game(ctx, canvasWidth, canvasHeight);
-    //showMenu("Кликните, чтобы начать", ctx, canvasWidth, canvasHeight, game);
-
     $(document)
         // .on('mousedown', function (e) {
         //     handleDown(toVector2d(e, canvasPosition));
