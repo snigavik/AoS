@@ -398,43 +398,6 @@ function handleClick(p) {
     isClick = false;
 }
 
-
-function handleKeyUp() {
-    //xfilter.cy(-2);
-}
-function handleKeyDown() {
-    //xfilter.cy(2);
-}
-function handleKeyRight() {
-    //xfilter.cdir(-2);
-}
-function handleKeyLeft() {
-    //xfilter.cdir(2);
-}
-function handleKeySpace() {
-    //xfilter.cdir(0);
-}
-
-function handleKeyM() {
-    //colorbonus = !colorbonus;
-}
-
-function handleEsc() {
-    //show_menu("Пауза");
-}
-
-// function showMenu(information, ctx, width, height, game) {
-//     var menu = new TitleScreen("Balloon Sucker", information);
-//     menu.draw(ctx, width, height);
-
-//     $(document).one('click', function () {
-//         if (game.isOver()) {
-//             game.init();
-//         }
-//         game.start();
-//     });
-// }
-
 function toVector2d(e, c) {
     return new Vector2d(e.pageX - c.left, e.pageY - c.top);
 }
@@ -459,27 +422,9 @@ $window.load(function () {
     initGame();
     startGame();
     $(document)
-        // .on('mousedown', function (e) {
-        //     handleDown(toVector2d(e, canvasPosition));
-        // })
-        // .on('mousemove', function (e) {
-        //     handleMove(toVector2d(e, canvasPosition));
-        // })
-        // .on('mouseup', handleUp);
         .on('click', function (e) {
             //alert("123");
             handleClick(toVector2d(e, canvasPosition));
         });
-
-
-    KeyboardController({
-        27: handleEsc,
-        37: handleKeyLeft,
-        38: handleKeyUp,
-        39: handleKeyRight,
-        40: handleKeyDown,
-        32: handleKeySpace,
-        77: handleKeyM
-    }, 100);
 
 });
