@@ -1,4 +1,4 @@
-var cardPredix = 'images/cards2/', cardExt = '.png';
+var cardPredix = 'images/cards/', cardExt = '.png';
 
 var mapIdToNameOfCards = {
     1: '2_of_clubs',
